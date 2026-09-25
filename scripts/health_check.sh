@@ -1,5 +1,7 @@
 #!/bin/bash
 
+CHECK_FAILED=0
+
 echo "======================================"
 echo "       LINUX SERVER HEALTH CHECK"
 echo "======================================"
@@ -10,6 +12,7 @@ if sudo service apache2 status > /dev/null 2>&1; then
     echo "Status: RUNNING"
 else
     echo "Status: NOT RUNNING"
+    CHECK_FAILED=1
 fi
 
 echo
@@ -22,6 +25,7 @@ if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 400 ]; then
 else
     echo "Status: DOWN"
     echo "HTTP Code: ${HTTP_CODE:-N/A}"
+    CHECK_FAILED=1
 fi
 
 echo
@@ -30,6 +34,7 @@ if sudo ss -tulpn | grep -q ":80"; then
     echo "Status: LISTENING"
 else
     echo "Status: NOT LISTENING"
+    CHECK_FAILED=1
 fi
 
 echo
@@ -43,6 +48,16 @@ echo "CPU Load: $CPU_LOAD"
 echo "Memory Usage: ${MEMORY}%"
 echo "Disk Usage: ${DISK}%"
 
+if (( $(echo "$MEMORY > 80" | bc -l) )); then
+    echo "WARNING: High memory usage"
+    CHECK_FAILED=1
+fi
+
+if [ "$DISK" -gt 80 ]; then
+    echo "WARNING: High disk usage"
+    CHECK_FAILED=1
+fi
+
 echo
 echo "5. Recent Apache Errors"
 
@@ -53,9 +68,18 @@ if [ "$ERROR_COUNT" -eq 0 ]; then
 else
     echo "Recent Apache errors: $ERROR_COUNT"
     sudo grep -i "\[.*:error\]" /var/log/apache2/error.log | tail -5
+    CHECK_FAILED=1
 fi
 
 echo
 echo "======================================"
 echo "Health check completed: $(date)"
 echo "======================================"
+
+if [ "$CHECK_FAILED" -eq 0 ]; then
+    echo "Overall Status: HEALTHY"
+    exit 0
+else
+    echo "Overall Status: CHECK FAILED"
+    exit 1
+fi

@@ -1,7 +1,9 @@
 #!/bin/bash
+LOG_FILE="$HOME/linux-web-server/logs/health_check.log"
 
 CHECK_FAILED=0
 
+{
 echo "======================================"
 echo "       LINUX SERVER HEALTH CHECK"
 echo "======================================"
@@ -83,3 +85,4 @@ else
     echo "Overall Status: CHECK FAILED"
     exit 1
 fi
+} | tee -a "$LOG_FILE"

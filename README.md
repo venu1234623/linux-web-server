@@ -6,7 +6,7 @@
 
 ### Server Health Check
 
-![Linux Server Health Check](health-check image.png)
+![Linux Server Health Check](healthcheckimages.png)
 
 ## Project Overview
 

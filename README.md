@@ -4,6 +4,10 @@
 
 ![Personal Linux Web Server](image.png)
 
+### Server Health Check
+
+![Linux Server Health Check](health-check image.png)
+
 ## Project Overview
 
 Set up and configured a personal web server on Ubuntu Linux using Apache HTTP Server. The project demonstrates Linux system administration, web server configuration, monitoring, log analysis, automation, troubleshooting, and Git version control.

@@ -2,7 +2,7 @@
 
 ## Project Preview
 
-![Personal Linux Web Server](images/web-server.png)
+![Personal Linux Web Server](images.png)
 
 ## Project Overview
 

@@ -1,5 +1,9 @@
 # Personal Linux Web Server
 
+## Project Preview
+
+![Personal Linux Web Server](images/web-server.png)
+
 ## Project Overview
 
 Set up and configured a personal web server on Ubuntu Linux using Apache HTTP Server. The project demonstrates Linux system administration, web server configuration, monitoring, log analysis, automation, troubleshooting, and Git version control.
